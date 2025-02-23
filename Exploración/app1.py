@@ -16,58 +16,25 @@ estados = sorted(df["state"].unique())
 estados.insert(0, "Todos los Estados Unidos")
 
 # Inicializar la app Dash
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=["/assets/styles.css"])
 
-# Definir estilos con la fuente Roboto desde Google Fonts
-styles = {
-    'container': {
-        'width': '80%',
-        'margin': '0 auto',
-         'font-family': 'Source Sans Pro, sans-serif'
-    },
-    'title': {
-        'textAlign': 'center',
-        'fontSize': '32px',
-        'fontWeight': 'bold',
-        'margin-bottom': '20px',
-        'font-family': 'Roboto, sans-serif'
-    },
-    'filter-container': {
-        'display': 'flex',
-        'justify-content': 'center',
-        'align-items': 'center',
-        'margin-bottom': '20px'
-    },
-    'dropdown': {
-        'width': '50%',
-        'textAlign': 'center',
-        'fontSize': '16px',
-        'font-family': 'Roboto, sans-serif'
-    }
-}
-
-# Layout con Google Fonts
-app.layout = html.Div(style=styles['container'], children=[
-    # Incluir Google Fonts en el layout
-    html.Link(
-        rel="stylesheet",
-        href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700&display=swap"
-    ),
-
-    html.H1("Mapa Interactivo de Precios de Alquiler", style=styles['title']),
+# Layout con clases CSS
+app.layout = html.Div(className="container", children=[
     
-    html.Div(style=styles['filter-container'], children=[
-        html.Label("Selecciona un Estado:", style={'fontSize': '18px', 'margin-right': '10px'}),
+    html.H1("Mapa Interactivo de Precios de Alquiler", className="title"),
+    
+    html.Div(className="filter-container", children=[
+        html.Label("Selecciona un Estado:", className="filter-label"),
         dcc.Dropdown(
             id="state-filter",
             options=[{"label": estado, "value": estado} for estado in estados],
             value="Todos los Estados Unidos",
             clearable=False,
-            style=styles['dropdown']
+            className="dropdown"
         ),
     ]),
 
-    dcc.Graph(id="map-graph", style={'height': '75vh'})
+    dcc.Graph(id="map-graph", className="map-graph")
 ])
 
 # Callback para actualizar el mapa según el estado seleccionado
